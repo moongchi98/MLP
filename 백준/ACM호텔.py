@@ -18,3 +18,4 @@ for trial_case in case:
     else:
         result += str(floor)+ str(room_no)
     print(result)
+    floor*100+room_NO
