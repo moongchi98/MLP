@@ -16,6 +16,7 @@
 #     else:
 #         print('no')
 
+#실제답안
 T= int(input())
 numbers = []
 for num in range(T):
