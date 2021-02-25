@@ -1,39 +1,21 @@
-#격자 원래대로 변경 함수
-def point_change(c,r):
+N = int(input())
+palette = [[-1]*101 for _ in range(101)]
+for idx in range(N):
+    c,r,w,h = map(int,input().split())
     c,r = r,c
     r = 100 - r
-    return r,c                                  
 
-#색종이가 깔릴 격자 만들기
-palette = []
-for _ in range(101):
-    palette.append([100]*101)
+    #왼쪽 아래 좌표가 주어지는 거니까
+    for i in range(w):
+        for j in range(h):
+            nr = r - i
+            nc = c + j
+            palette[nr][nc] = idx
 
-def check_cnt(idx):
+for idx in range(N):
     cnt = 0
-    for row in palette:
-        for col in row:
-            if col == idx:
+    for r in range(101):
+        for c in range(101):
+            if palette[r][c] == idx:
                 cnt += 1
-    return cnt
-
-#input
-N = int(input())
-color_paper = []
-for _ in range(N):
-    color_paper.append(list(map(int,input().split())))
-for x in range(N):
-    print(x,'x')
-    p1 = (point_change(color_paper[x][0],color_paper[x][1]))[0]
-    p2 = (point_change(color_paper[x][0],color_paper[x][1]))[1]
-    w = color_paper[x][2]
-    h = color_paper[x][3]
-    for i in range(h):
-        nr = p1 - i
-        for j in range(w):
-            nc = p2 + j
-            print((nr,nc),'nc')
-            palette[nr][nc] = x
-for x in range(N):
-    print(check_cnt(x))
-  
+    print(cnt)
