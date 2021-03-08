@@ -7,19 +7,29 @@ def comb(idx,sel):
         result.append(tuple(sel))
         return
     for i in range(N):
-        if visit[i] == 0:
-            visit[i] = 1
+        if len(sel) == 0 or sel[-1] <=num[i]:
             comb(idx+1,sel+[num[i]])
-            visit[i] = 0
-visit = [0]*N
+
 result = []
+visit= [0]*N
 comb(0,[])
 result = list(set(result))
 result.sort()
 for r in result:
     print(*r)
-
-
-#not in으로 중복 점검 => 시간 초과
-#str로 치환 경우에는 두자리 이상의 숫자가 하나하나로 처리
-# ex)10000 => 1 0 0 0 0
+#반례
+# 3 2
+# 1 11 111
+#실제 되야하는 출력
+# 1 1
+# 1 11
+# 1 111
+# 11 11
+# 11 111
+# 111 111
+#코드로 나오는 출력
+# 1 1
+# 1 11
+# 1 111
+# 11 111
+# 111 111

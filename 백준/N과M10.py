@@ -9,7 +9,8 @@ def comb(idx,sel):
     for i in range(N):
         if visit[i] == 0:
             visit[i] = 1
-            comb(idx+1,sel+[num[i]])
+            if len(sel) == 0 or sel[-1] <= num[i]:
+                comb(idx+1,sel+[num[i]])
             visit[i] = 0
 visit = [0]*N
 result = []
@@ -18,8 +19,3 @@ result = list(set(result))
 result.sort()
 for r in result:
     print(*r)
-
-
-#not in으로 중복 점검 => 시간 초과
-#str로 치환 경우에는 두자리 이상의 숫자가 하나하나로 처리
-# ex)10000 => 1 0 0 0 0
