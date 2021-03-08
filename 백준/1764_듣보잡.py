@@ -25,7 +25,7 @@ result.sort()
 print(cnt)
 for x in result:
     print(x)
-#통과코드
+# 통과코드
 # result = sorted(list(ddeut&bodo))
 # print(len(result))
 # for i in result:

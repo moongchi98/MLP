@@ -1,47 +1,40 @@
-def dfs(cnt): #cnt가 고른 개수
-    total = 140
-    if cnt == 2:
-        for idx in next:
-            total -= trolls[idx]
-        if total == 100:
-            return next
+def dfs(idx,total,chosen):#뽑을 개수, 키의 합, 뽑은 애들
+    global cnt #탈출 조건 설정하기 위해서,,
+    if cnt == 1:
+        return
+    else:
+        if idx == 2: #2명 뽑을거니까
+            if total == 100:
+                for t in trolls:
+                    if t not in chosen:
+                        print(t)
+                cnt += 1
+                return
 
-        else:
-            total = 140
-            return
+            else:
+                return
 
-
-    for i in range(9):
+    for i in range(idx,9):
         if not visited[i]:
             visited[i] = 1
-            next.append(i)
+            dfs(idx+1,total - trolls[i],chosen + [trolls[i]])
+            visited[i] = 0
 
-            dfs(cnt+1)
-            next.pop()
-
-            for j in range(i+1,9):
-                visited[j] = 0
-#
-# next = []
+cnt = 0
 trolls =[]
-# visited =[0]*9
+visited =[0]*9
 for _ in range(9):
     trolls.append(int(input()))
-total = sum(trolls)
-for i1 in range(8):
-    for i2 in range(i1+1,9):
-        if (trolls[i1]+trolls[i2] == total - 100):
-            result =[i1,i2]
-            break
-
-
-for x in result:
-    trolls[x] = 0
+a = sum(trolls)
 trolls.sort()
-for t in trolls:
-    if t != 0:
-        print(t)
+dfs(0,a,[])
 
+#통과코드 - 반복문
+# for i1 in range(8):
+#     for i2 in range(i1+1,9):
+#         if (trolls[i1]+trolls[i2] == total - 100):
+#             result =[i1,i2]
+#             break
 
 
 
