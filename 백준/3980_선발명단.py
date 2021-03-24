@@ -1,27 +1,25 @@
 from sys import stdin
 
-def choice(idx,max_ability,id):
-    global total
+def choice(idx,sum):
+    global max_sum
     if idx == 11:
-        visit[id] = 1 #포지션 배정 되었다고 표시하기
-        total += max_ability
+        if sum > max_sum:
+            max_sum = sum
         return
-    if arr[r][idx] > max_ability and arr[r][idx] != 0 and visit[idx] == 0:
-        max_ability = arr[r][idx]
-        id = idx
-        choice(idx+1,max_ability, id)
-        max_ability = 0
-        id = 0
-    else:
-        choice(idx+1,max_ability,id)
+    for i in range(11):
+        if arr[idx][i] != 0 and visit[i] == 0:
+            visit[i] = 1
+            choice(idx+1,sum+arr[idx][i])
+            visit[i] = 0
 
 T = int(stdin.readline())
-arr =[]
-for _ in range(11):
-    arr.append(list(map(int,stdin.readline().split())))
-visit =[0]*11
-total = 0
-for r in range(11):
-    choice(0,0,0)
-print(total)
+for tc in range(T):
+    arr =[]
+    for _ in range(11):
+        arr.append(list(map(int,stdin.readline().split())))
+    visit =[0]*11
+    max_sum = 0
+    choice(0,0)
+    print(max_sum)
+
 
