@@ -1,55 +1,52 @@
 from sys import stdin
-def bingo_check(r,c):
-    global bingo_cnt
-    #세로체크
+from collections import deque
+def bingo_find(i,j):
     total = 0
-    for i in range(5):
-        total += visit[i][c]
-    if total == 5:
-        bingo_cnt += 1
-    else:
-        total = 0
-    #가로체크
-    for j in range(5):
-        total += visit[r][j]
-    if total == 5:
-        bingo_cnt += 1
-    else:
-        total = 0
-    #대각선체크
-    if (r+c) == 4:
-        for k in range(5):
-            total += visit[k][4-k]
-        if total == 5:
-            bingo_cnt += 1
-        else:
-            total = 0
-    elif r == c:
-        for k in range(5):
-            total += visit[k][k]
-        if total == 5:
-            bingo_cnt += 1
-        else:
-            total = 0
+    #가로 찾기
+    for r in range(5):
+        if sum(visit[r][0:5]) == 5:
+            total += 1
 
-
-location =[0]*26
-visit =[[0]*5 for _ in range(5)]
-cnt = 0
-bingo_cnt = 0
-answer = []
-for r in range(5):
-    arr = list(map(int,stdin.readline().split()))
+    #세로 찾기
     for c in range(5):
-        location[arr[c]] = (r,c)
-for _ in range(5):
-    tmp = list(map(int,stdin.readline().split()))
-    for c in tmp:
-        r,c = location[c]
-        visit[r][c] = 1
-        cnt += 1
-        if cnt >= 5:
-            bingo_check(r,c)
-            if bingo_cnt == 3:
-                answer.append(cnt)
-print(answer[0])
+        col = 0
+        for r in range(5):
+            if visit[r][c] == 1:
+                col += 1
+            if col == 5:
+                total += 1
+
+    #대각선 찾기
+    right_down = left_down = 0
+    for i in range(5):
+        if visit[i][i] == 1:
+            right_down += 1
+        if visit[i][4-i] == 1:
+            left_down += 1
+    #전체 빙고 개수
+    if left_down == 5:
+        total += 1
+    elif right_down == 5:
+        total += 1
+    return total
+positions = [0]*(26) #빙고판의 숫자별 위치 저장
+for r in range(5):
+    tmp = list(map(int, stdin.readline().split()))
+    for c in range(5):
+        positions[tmp[c]] = ((r,c))
+numbers =[] #사회자의 숫자들
+
+for _ in range(5): #1차원 list로 받아오기
+    numbers += list(map(int,stdin.readline().split()))
+numbers = deque(numbers)
+
+cnt = 0 #사회자가 부른 숫자의 개수
+visit =[[0]*5 for _ in range(5)] #숫자 불려지면 체크 용도
+while numbers:
+    num = numbers.popleft()
+    cnt +=1
+    i,j = positions[num]
+    visit[i][j] = 1
+    if bingo_find(i,j) >= 3:
+        print(cnt)
+        break
